@@ -1,0 +1,35 @@
+package com.cdac.model;
+
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Employee {
+
+	@NotBlank
+	private int id;
+
+	@NotBlank
+	@Length(min = 6, max = 10)
+	private String name;
+
+	@Length(min = 5, max = 10)
+	@NotBlank
+	private String department;
+
+	@Email
+	private String email;
+
+	@NotBlank
+	private double salary;
+
+}
