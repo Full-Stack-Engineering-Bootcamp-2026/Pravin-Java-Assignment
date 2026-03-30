@@ -1,0 +1,5 @@
+package com.cdac.model;
+
+public class Employee {
+
+}

@@ -4,27 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdac.dto.ApiResponse;
+import com.cdac.entities.Employee;
 import com.cdac.exception.ResourceNotFound;
-import com.cdac.model.Employee;
 
 @Service
+@Transactional
 public class EmployeeService {
 
 	private List<Employee> emps = new ArrayList<Employee>();
-
-	public EmployeeService() {
-
-		emps.add(new Employee(1, "Pravin", "IT", "pravin@gamail.com", 2092390));
-		emps.add(new Employee(2, "Summet", "IT", "sm@gamail.com", 2092390));
-		emps.add(new Employee(3, "Priya", "HR", "priya@gamail.com", 2092390));
-		emps.add(new Employee(4, "Anupam", "IT", "anumpan@gamail.com", 2092390));
-		emps.add(new Employee(2, "Supriay", "IT", "sm@gamail.com", 2092390));
-		emps.add(new Employee(3, "Jas", "HR", "jas@gamail.com", 2092390));
-
-		// TODO Auto-generated constructor stub
-	}
 
 //	GET /employees — Return all employees
 //	GET /employees/{id} — Return employee or 404
