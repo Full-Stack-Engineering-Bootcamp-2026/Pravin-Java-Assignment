@@ -111,16 +111,12 @@ public class EmployeeService {
 		return new ApiResponse(true, "Projects found!", emp.getProjects());
 	}
 
-	// how to update ? what should be the approch?
-	public ApiResponse updateEmployee(Employee empData, int id) {
+	public ApiResponse deleteEmployeeById(Long empId) {
 
-		Employee emp = null;
+		Employee empNew = employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFound("user doesn't exist!"));
 
-		return null;
-	}
-
-	public ApiResponse deleteEmployeeById(int id) {
-
+		employeeRepository.delete(empNew);
 		return new ApiResponse(true, "User Deleted!");
 
 	}
@@ -128,7 +124,7 @@ public class EmployeeService {
 	public ApiResponse findDepartment(String dept) {
 
 		return new ApiResponse(true, null);
-
+//		Employee empNew = employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFound("user doesn't exist!"));
 	}
 
 	public ApiResponse countEmployees() {
@@ -139,6 +135,28 @@ public class EmployeeService {
 	public ApiResponse findMinSal(double sal) {
 
 		return new ApiResponse(true, null);
+	}
+
+	public ApiResponse updateEmployee(EmployeeInDto emp, Long empId) {
+		// TODO Auto-generated method stub
+		Employee empNew = employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFound("user doesn't exist!"));
+		Optional<Department> dept = departmentRepository.findById(emp.getDepartment_id());
+		Optional<Role> role = roleRepository.findById(emp.getRole());
+		if (dept.isEmpty() || role.isEmpty()) {
+
+			throw new ResourceNotFound("dept or role  not exist");
+
+		}
+		// how to update employee ?
+		empNew.setName(emp.getName());
+		empNew.setDepartment(dept.get());
+		empNew.setEmail(emp.getEmail());
+		empNew.setStatus(emp.getStatus());
+		empNew.setRole(role.get());
+		empNew.setSalary(emp.getSalary());
+		Employee res = employeeRepository.save(empNew);
+		return new ApiResponse(true, "updated employee!", res);
 	}
 
 }

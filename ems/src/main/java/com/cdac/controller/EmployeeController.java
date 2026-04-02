@@ -51,6 +51,15 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(empService.saveEmployee(emp));
 	}
 
+	@PutMapping("/{empId}")
+	public ResponseEntity<?> updateEmployee(@Valid @RequestBody EmployeeInDto emp, @PathVariable @NotNull Long empId) {
+		// TODO: process POST request
+
+		System.out.println(emp.toString());
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(empService.updateEmployee(emp, empId));
+	}
+
 	// what should the url?
 	@PutMapping("/projects/{employeeId}/{projectId}")
 	public ResponseEntity<?> assignProjectsToEmployee(@PathVariable @NotNull Long employeeId,
@@ -72,7 +81,7 @@ public class EmployeeController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteEmployeeById(@PathVariable @Positive int id) {
+	public ResponseEntity<?> deleteEmployeeById(@PathVariable @Positive Long id) {
 		// TODO: process POST request
 
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(empService.deleteEmployeeById(id));
