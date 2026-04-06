@@ -1,28 +1,25 @@
 package com.cdac.service;
 
-import java.util.List;
-
 import com.cdac.dto.EmployeeInDto;
 import com.cdac.dto.EmployeeOutDto;
 import com.cdac.entities.Employee;
 import com.cdac.entities.Project;
+import java.util.List;
 
 public interface EmployeeSevice {
+  List<EmployeeOutDto> findAllEmployees();
 
-	public List<EmployeeOutDto> findAllEmployees();
+  Employee findEmployeeById(Long id);
 
-	public Employee findEmployeeById(Long id);
+  EmployeeOutDto saveEmployee(EmployeeInDto emp);
 
-	public EmployeeOutDto saveEmployee(EmployeeInDto emp);
+  List<Project> findProjectsByEmployeeId(Long id);
 
-	public List<Project> findProjectsByEmployeeId(Long id);
+  String deleteEmployeeById(Long empId);
 
-	public String deleteEmployeeById(Long empId);
+  String saveProjectInEmployee(Long userId, Long projecId);
 
-	public String saveProjectInEmployee(Long userId, Long projecId);
+  String countEmployees();
 
-	public String countEmployees();
-
-	public Employee updateEmployee(EmployeeInDto emp, Long empId);
-
+  Employee updateEmployee(EmployeeInDto emp, Long empId);
 }

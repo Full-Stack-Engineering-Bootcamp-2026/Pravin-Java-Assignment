@@ -1,15 +1,12 @@
 package com.cdac.service;
 
-import java.util.List;
-
 import com.cdac.dto.RoleInDto;
 import com.cdac.entities.Employee;
 import com.cdac.entities.Role;
+import java.util.List;
 
 public interface RoleService {
+  Role saveRole(RoleInDto dto);
 
-	public Role saveRole(RoleInDto dto);
-
-	public List<Employee> getEmployeeOfRole(Long roleId);
-
+  List<Employee> getEmployeeOfRole(Long roleId);
 }

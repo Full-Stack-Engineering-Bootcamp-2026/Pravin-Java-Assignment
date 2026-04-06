@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class ApiResponse {
+public class ApiResponse<T> {
 
 	private String message;
 	private LocalDateTime timestamp;
-	private boolean success;
-	private Object data;
+	private Boolean success;
+	private T data;
 
-	public ApiResponse(boolean success, String message, Object data) {
+	public ApiResponse(Boolean success, String message, T data) {
 
 		this.success = success;
 		this.message = message;
@@ -20,7 +20,7 @@ public class ApiResponse {
 		this.timestamp = LocalDateTime.now();
 	}
 
-	public ApiResponse(boolean success, String message) {
+	public ApiResponse(Boolean success, String message) {
 
 		this.success = success;
 		this.message = message;

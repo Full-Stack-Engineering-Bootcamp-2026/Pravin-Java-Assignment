@@ -1,51 +1,41 @@
 package com.cdac.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.cdac.dto.DepartmentInDto;
 import com.cdac.entities.Department;
 import com.cdac.entities.Employee;
 import com.cdac.exception.ResourceNotFound;
 import com.cdac.repository.DepartmentRepository;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
+  private final DepartmentRepository departmentRepository;
 
-	private DepartmentRepository departmentRepository;
+  public Department saveDepartment(DepartmentInDto dto) {
+    Department dept = new Department();
 
-	public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+    dept.setLocation(dto.getLocation());
+    dept.setName(dto.getName());
 
-		this.departmentRepository = departmentRepository;
-	}
+    Department res = departmentRepository.save(dept);
 
-	public Department saveDepartment(DepartmentInDto dto) {
+    return res;
+  }
 
-		Department dept = new Department();
+  public List<Department> findAllDepartment() {
+    return departmentRepository.findAll();
+  }
 
-		dept.setLocation(dto.getLocation());
-		dept.setName(dto.getName());
+  public List<Employee> findEmployeesByDeptId(Long deptId) {
+    Department dept = departmentRepository
+      .findById(deptId)
+      .orElseThrow(() -> new ResourceNotFound("Department not found"));
 
-		Department res = departmentRepository.save(dept);
-
-		return res;
-	}
-
-	public List<Department> findAllDepartment() {
-
-		return departmentRepository.findAll();
-
-	}
-
-	public List<Employee> findEmployeesByDeptId(Long deptId) {
-
-		Department dept = departmentRepository.findById(deptId)
-				.orElseThrow(() -> new ResourceNotFound("Department not found"));
-
-		return dept.getEmployees();
-	}
-
+    return dept.getEmployees();
+  }
 }

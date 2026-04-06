@@ -1,5 +1,6 @@
 package com.cdac.dto;
 
+import com.cdac.enums.EmployeeStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,29 +10,27 @@ import lombok.Getter;
 
 @Getter
 public class EmployeeInDto {
+  @NotBlank(message = "Name is required!")
+  private String name;
 
-	@NotBlank(message = "Name is required!")
-	private String name;
+  @Email(message = "Invalid Email Format!")
+  @NotBlank(message = "Email is required!")
+  private String email;
 
-	@Email(message = "Invalid Email Format!")
-	@NotBlank(message = "Email is required!")
-	private String email;
+  @NotNull
+  @Positive(message = "Saraly can't be zero or nagative!")
+  @Min(value = 1)
+  private Double salary;
 
-	@NotNull
-	@Positive(message = "Saraly can't be zero or nagative!")
-	@Min(value = 1)
-	private double salary;
+  @NotBlank(message = "Status is required!")
+  private EmployeeStatus status;
 
-	@NotBlank(message = "Status is required!")
-	private String status;
+  @NotNull
+  @Positive(message = "id should be possitve!")
+  @Min(value = 1, message = "id can't be zero")
+  private Long department_id;
 
-	@NotNull
-	@Positive(message = "id should be possitve!")
-	@Min(value = 1, message = "id can't be zero")
-	private Long department_id;
-
-	@NotNull
-	@Positive(message = "Role should be positive!")
-	private Long role;
-
+  @NotNull
+  @Positive(message = "Role should be positive!")
+  private Long role;
 }

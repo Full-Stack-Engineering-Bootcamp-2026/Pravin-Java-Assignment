@@ -1,23 +1,19 @@
 package com.cdac.service;
 
-import java.util.List;
-
 import com.cdac.dto.ProjectInDto;
 import com.cdac.entities.Employee;
 import com.cdac.entities.Project;
-
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public interface ProjectService {
+  Project saveProject(ProjectInDto dto);
 
-	public Project saveProject(ProjectInDto dto);
+  Project findProjectById(Long id);
 
-	public Project findProjectById(Long id);
+  List<Project> findAllProjects();
 
-	public List<Project> findAllProjects();
+  String deleteProject(Long id);
 
-	public String deleteProject(Long id);
-
-	public List<Employee> findEmployeeByProjectId(@NotNull Long projectId);
-
+  List<Employee> findEmployeeByProjectId(@NotNull Long projectId);
 }

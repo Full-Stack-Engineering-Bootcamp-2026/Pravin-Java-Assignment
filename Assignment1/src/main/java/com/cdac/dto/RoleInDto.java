@@ -7,11 +7,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public class RoleInDto {
+  @NotBlank(message = "Title s required!")
+  private String title;
 
-	@NotBlank
-	private String title;
-
-	@NotBlank
-	private String description;
-
+  @NotBlank(message = "Description is required!")
+  private String description;
 }
