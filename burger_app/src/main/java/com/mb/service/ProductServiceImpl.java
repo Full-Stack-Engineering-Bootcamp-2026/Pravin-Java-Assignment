@@ -5,8 +5,16 @@ import com.mb.entities.Product;
 import com.mb.enums.CategoryEnum;
 import com.mb.enums.TypeEnum;
 import com.mb.repository.ProductRepository;
+import com.mb.specification.ProductSpecs;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public List<Product> findAllProducts() {
+
     return productRepository.findAll();
+
   }
 
   @Override
@@ -37,18 +47,26 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public List<Product> filterProducts(String category, String type) {
-    if (category != null && type != null) {
-      return productRepository.findByCategoryAndType(
-        CategoryEnum.valueOf(category),
-        TypeEnum.valueOf(type)
-      );
-    } else if (category != null) {
-      return productRepository.findByCategory(CategoryEnum.valueOf(category));
-    } else if (type != null) {
-      return productRepository.findByType(TypeEnum.valueOf(type));
-    }
+    // if (category != null && type != null) {
+    //   return productRepository.findByCategoryAndType(
+    //     CategoryEnum.valueOf(category),
+    //     TypeEnum.valueOf(type)
+    //   );
+    // } else if (category != null) {
+    //   return productRepository.findByCategory(CategoryEnum.valueOf(category));
+    // } else if (type != null) {
+    //   return productRepository.findByType(TypeEnum.valueOf(type));
+    // }
 
-    return productRepository.findAll();
+    System.out.println(category  + type);
+  CategoryEnum categoryEnum = (category != null) ? CategoryEnum.valueOf(category) : null;
+    TypeEnum typeEnum = (type != null) ? TypeEnum.valueOf(type) : null;
+
+    Specification<Product> spec = Specification
+        .where(ProductSpecs.ofCategory(categoryEnum))
+        .and(ProductSpecs.ofType(typeEnum));
+
+    return productRepository.findAll(spec);
   }
 
   @Override
@@ -57,5 +75,30 @@ public class ProductServiceImpl implements ProductService {
       return productRepository.findByNameIgnoreCaseContaining(name);
     }
     return List.of();
+  }
+
+  @Override
+  public Page<Product> findProductsPaginated(Integer page, Integer size) {
+   
+      Pageable pageable = PageRequest.of(page, size);
+      return productRepository.findAll(pageable);
+  }
+
+  @Override
+  public Page<Product> filteredProductPaginated(Integer page, Integer size, String category, String type) {
+      Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+       CategoryEnum categoryEnum = (category != null) ? CategoryEnum.valueOf(category) : null;
+    TypeEnum typeEnum = (type != null) ? TypeEnum.valueOf(type) : null;
+
+    Specification<Product> spec = Specification
+        .where(ProductSpecs.ofCategory(categoryEnum))
+        .and(ProductSpecs.ofType(typeEnum));
+
+
+
+
+      
+      return  productRepository.findAll(spec,pageable)   ;
   }
 }

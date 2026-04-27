@@ -5,8 +5,11 @@ import com.mb.enums.CategoryEnum;
 import com.mb.enums.TypeEnum;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
+
+  //old way
   List<Product> findByCategoryOrType(CategoryEnum category, TypeEnum type);
 
   List<Product> findByCategoryAndType(CategoryEnum category, TypeEnum type);

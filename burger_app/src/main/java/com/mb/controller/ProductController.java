@@ -7,6 +7,8 @@ import com.mb.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -70,5 +72,29 @@ public class ProductController {
       .body(
         new ApiResponse<List<Product>>(true, null, productService.findProductByName(name))
       );
+  }
+  
+  
+  @GetMapping("/paginated")
+  public ResponseEntity<ApiResponse<Page<Product>>> findPaginatedProducts(@RequestParam(defaultValue = "0") int page,
+  @RequestParam(defaultValue = "10") int size) {
+
+      Page<Product > product = productService.findProductsPaginated(page, size);
+    return ResponseEntity
+    .status(HttpStatus.CREATED)
+    .body(new ApiResponse<Page<Product>>(true, null, product));
+  }
+   @GetMapping("/paginated/filter")
+  public ResponseEntity<ApiResponse<Page<Product>>> findPaginatedFilterProducts(@RequestParam(defaultValue = "0") int page,
+  @RequestParam(defaultValue = "10") int size,  @RequestParam(required = false) String category,
+    @RequestParam(required = false) String type) {
+
+
+    Page<Product > product = productService.filteredProductPaginated(page, size,category,type);
+
+    
+    return ResponseEntity
+    .status(HttpStatus.CREATED)
+    .body(new ApiResponse<Page<Product>>(true, null, product));
   }
 }
